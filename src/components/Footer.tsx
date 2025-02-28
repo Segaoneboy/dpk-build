@@ -1,19 +1,18 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { FaInstagram, FaFacebookF, FaTelegramPlane, FaYoutube } from "react-icons/fa";
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
-
-  const pathname = usePathname()
-  if(pathname === "/auth"){
-    return null
+  const pathname = usePathname();
+  if (pathname === "/auth") {
+    return null;
   }
 
   return (
     <footer className="bg-[#1F3C88] text-white">
       {/* Основной контент футера */}
-      <div className="py-10 px-[calc(16px+9px)] md:px-[calc(16px+18px)] lg:px-[calc(16px+259px)] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Колонка 1: Государственные ресурсы */}
         <div>
           <h3 className="text-lg font-semibold mb-4">Государственные ресурсы</h3>
@@ -93,17 +92,19 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Колонка 3: Подписка и соцсети */}
-        <div>
+        {/* Колонка 3: Подписка */}
+        <div className="md:col-span-2 lg:col-span-1">
           <h3 className="text-lg font-semibold mb-4">Подписаться на обновления</h3>
-          <input
-            type="email"
-            placeholder="Введите ваш email"
-            className="w-full p-2 rounded text-black focus:outline-none focus:ring-2 focus:ring-[#083759]"
-          />
-          <button className="w-full mt-2 bg-[#083759] text-white p-2 rounded hover:bg-[#072c42] transition">
-            Подписаться
-          </button>
+          <div className="flex flex-col space-y-2">
+            <input
+              type="email"
+              placeholder="Введите ваш email"
+              className="w-full p-2 rounded text-black focus:outline-none focus:ring-2 focus:ring-[#083759]"
+            />
+            <button className="w-full bg-[#083759] text-white p-2 rounded hover:bg-[#072c42] transition">
+              Подписаться
+            </button>
+          </div>
 
           <h3 className="text-lg font-semibold mt-6 mb-4">Социальные сети</h3>
           <div className="flex space-x-4">
@@ -125,7 +126,7 @@ export default function Footer() {
 
       {/* Нижняя часть футера */}
       <div className="bg-[#1E3A5F] text-white py-4 text-sm">
-        <div className="px-[calc(16px+9px)] md:px-[calc(16px+18px)] lg:px-[calc(16px+259px)]">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <p className="text-center md:text-left">2025 © Все права защищены</p>
         </div>
       </div>

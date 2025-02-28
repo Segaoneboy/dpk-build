@@ -55,9 +55,9 @@ export default function MapComponent() {
     }, []);
 
     return (
-        <div className="flex flex-col items-center gap-4 p-6 min-h-screen bg-gray-100">
-            <h1 className="text-2xl font-bold text-gray-800">🌍 Карта Петропавловска</h1>
-            <div className="w-full max-w-5xl h-[600px] rounded-lg overflow-hidden shadow-lg">
+        <div className="p-6 bg-gray-100">
+            <h1 className="text-2xl font-bold text-gray-800 mb-5">🌍 Карта Петропавловска</h1> {/* Добавлен отступ mb-4 */}
+            <div className="w-full h-[600px] rounded-lg overflow-hidden shadow-lg">
                 {typeof window !== "undefined" && customIcon && userIcon && (
                     <MapContainer
                         center={userLocation || [54.8721, 69.1148]}
@@ -70,14 +70,14 @@ export default function MapComponent() {
                         maxBoundsViscosity={0.5}
                     >
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
+    
                         {/* Метки из WebSocket */}
                         {markers.map((marker) => (
                             <Marker key={marker.id} position={[marker.lat, marker.lng]} icon={customIcon}>
                                 <Popup>{marker.name}</Popup>
                             </Marker>
                         ))}
-
+    
                         {/* Маркер пользователя */}
                         {userLocation && (
                             <Marker position={userLocation} icon={userIcon}>
@@ -89,4 +89,5 @@ export default function MapComponent() {
             </div>
         </div>
     );
+    
 }

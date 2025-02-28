@@ -1,25 +1,50 @@
 "use client";
 
 import { useState } from "react";
+import checkRegData from "@/utils/checkRegData";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
+    const router = useRouter();
     const [formData, setFormData] = useState({
         lastName: "",
         firstName: "",
+        patronymic: "", // ✅ Добавлено отчество
         phone: "",
         email: "",
         password: "",
         role: "user",
     });
+    const [error, setError] = useState<string | false>(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Данные формы регистрации:", formData);
+
+        const payload = {
+            role: formData.role,
+            name: formData.firstName,
+            surname: formData.lastName,
+            patronymic: formData.patronymic, // ✅ Передача отчества
+            phone: formData.phone,
+            email: formData.email,
+            password: formData.password,
+        };
+
+        const result = await checkRegData(payload.role, payload.name, payload.surname, payload.patronymic, payload.phone, payload.email, payload.password);
+
+        if (result === true) {
+            alert("Пользователь создан");
+            router.push("/dashboard");
+        } else if (typeof result === "object" && result !== null && "message" in result) {
+            setError(result.message);
+        } else {
+            setError("Произошла ошибка при регистрации");
+        }
     };
 
     return (
@@ -46,6 +71,18 @@ const RegisterForm = () => {
                         value={formData.firstName}
                         onChange={handleChange}
                         placeholder="Введите имя"
+                        className="w-full border p-2 rounded-lg border-gray-300"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Отчество</label>
+                    <input
+                        type="text"
+                        name="patronymic"
+                        value={formData.patronymic}
+                        onChange={handleChange}
+                        placeholder="Введите отчество"
                         className="w-full border p-2 rounded-lg border-gray-300"
                     />
                 </div>
@@ -105,16 +142,9 @@ const RegisterForm = () => {
                 >
                     Зарегистрировать
                 </button>
-            </form>
 
-            <style jsx>{`
-                @media (max-width: 768px) {
-                    .w-\[600px\] {
-                        width: 90%;
-                        margin-left: 5%;
-                    }
-                }
-            `}</style>
+                {error && <p className="text-red-500">{error}</p>}
+            </form>
         </div>
     );
 };
